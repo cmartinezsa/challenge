@@ -7,7 +7,7 @@ class Reader extends Atributos {
   val logger: Logger = LogManager.getLogger(msjLog)
   val filter = new Filter()
   val write = new Writer()
-  val pathToWriteCSV="/Users/yaakov.chaym/Documents/dataset/challengede/out/csvFiles/"
+
 
   /**
     *
