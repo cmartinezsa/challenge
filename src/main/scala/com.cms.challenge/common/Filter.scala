@@ -55,7 +55,7 @@ class Filter extends Atributos {
     catch {
       case n:java.lang.NullPointerException =>
         logger.info(s"Check the DataFrame Input  : " + n)
-        "1900-01-01"
+       date
     }
   }
 }
