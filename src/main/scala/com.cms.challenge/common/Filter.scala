@@ -45,10 +45,17 @@ class Filter extends Atributos {
     */
   def getDateToCompute(df: DataFrame, date: String, days: Int)(implicit spark: SparkSession): String = {
     logger.info(s"Found start date  about $date  substract $days day(s)")
-    val dateToExtract = df.select(date_sub(lit(date), days+1).alias("date_sub_start"))
-      .select(col("date_sub_start"))
-      .first().getDate(0).toString
-    logger.info(s"Get date to extract data : " + dateToExtract)
-    return dateToExtract
+    try {
+      val dateToExtract = df.select(date_sub(lit(date), days + 1).alias("date_sub_start"))
+        .select(col("date_sub_start"))
+        .first().getDate(0).toString
+      logger.info(s"Get date to extract data : " + dateToExtract)
+      return dateToExtract
+    }
+    catch {
+      case n:java.lang.NullPointerException =>
+        logger.info(s"Check the DataFrame Input  : " + n)
+        "1900-01-01"
+    }
   }
 }
