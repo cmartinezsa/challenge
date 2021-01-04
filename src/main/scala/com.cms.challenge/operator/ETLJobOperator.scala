@@ -18,6 +18,8 @@ object ETLJobOperator extends Atributos {
       LOGGER.info("END PROCESS EARLY")
       SPARK_SESSION.stop()
     } else {
+      val cores= SPARK_SESSION.sparkContext.defaultParallelism
+      LOGGER.info(s"YOU HAVE $cores CORES, OR SLOTS.")
       LOGGER.info("VALIDATION OF PARAMETERS IS SUCESSFULL")
       STOCK_PRICES.stockPricesETL(Args.pathFile, Args.datePart, Args.tickerList, Args.numDay)(SPARK_SESSION)
       SPARK_SESSION.stop()
