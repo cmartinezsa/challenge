@@ -37,7 +37,7 @@ class StockPrices extends Atributos {
         .persist()
       if (!dfFinalMovilAvg.isEmpty) {
         val dfFinalMovilAvgCount=dfFinalMovilAvg.persist().count()
-        logger.info(s"**** Write Sucessfull $dfFinalMovilAvgCount into ${db.urlDB}.$target ****")
+        logger.info(s"Nums of Partitions result DF Final ${dfFinalMovilAvg.rdd.getNumPartitions}")
         //Prepare connection with Postgres for write into table.
         db.getDBConnection()
         write.saveResultJDBC(dfFinalMovilAvg, saveModeAppend, db.urlDB, db.user, db.password, target)
