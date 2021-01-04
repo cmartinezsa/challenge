@@ -29,6 +29,7 @@ class StockPrices extends Atributos {
     try {
       //Read the CSV File with contains historical_stock_prices
       val dfPrices = reader.readCSVFile(pathFile, date_part, ticker, days)
+      logger.info(s"Num of Partitions result Input DF ${dfPrices.rdd.getNumPartitions}")
 
       // Create DataFrame with key indicator movil avg.
       val dfFinalMovilAvg = getJoinDFs(getMovAvgPrices(dfPrices))
@@ -36,6 +37,7 @@ class StockPrices extends Atributos {
         .persist()
       if (!dfFinalMovilAvg.isEmpty) {
         val dfFinalMovilAvgCount=dfFinalMovilAvg.persist().count()
+        logger.info(s"**** Write Sucessfull $dfFinalMovilAvgCount into ${db.urlDB}.$target ****")
         //Prepare connection with Postgres for write into table.
         db.getDBConnection()
         write.saveResultJDBC(dfFinalMovilAvg, saveModeAppend, db.urlDB, db.user, db.password, target)
